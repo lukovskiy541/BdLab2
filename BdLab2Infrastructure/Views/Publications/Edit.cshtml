@@ -1,0 +1,121 @@
+﻿@model Bd2Domain.Model.Publication
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Редагувати</h1>
+
+<h4>Публікацію</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PublicationDate" class="control-label"></label>
+                <input asp-for="PublicationDate" class="form-control" type="date" />
+                <span asp-validation-for="PublicationDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Прибрати Автора:</label>
+                <ul id="currentAuthorsList">
+                    @foreach (var author in Model.Authors)
+                    {
+                        <p><input type="checkbox" name="authorsToRemove" value="@author.Id" /> @author.LastName</p>
+                    }
+                </ul>
+            </div>
+
+            <label for="authorSelect">Додаткові автори</label>
+            <div class="form-group" style="margin-top:2vw">
+                <select id="Authors" name="selectedAuthorIds" class="form-control" multiple="multiple">
+                    @foreach (var author in (SelectList)ViewBag.Authors)
+                    {
+                        <option value="@author.Value">@author.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Прибрати Тематику:</label>
+                <ul id="currentSubjectsList">
+                    @foreach (var subject in Model.Subjects)
+                    {
+                        <p><input type="checkbox" name="subjectsToRemove" value="@subject.Id" /> @subject.Name</p>
+                    }
+                </ul>
+            </div>
+
+            <label for="subjectSelect">Додаткові тематики</label>
+            <div class="form-group" style="margin-top:2vw">
+                <select id="Subjects" name="selectedSubjectIds" class="form-control" multiple="multiple">
+                    @foreach (var subject in (SelectList)ViewBag.Subjects)
+                    {
+                        <option value="@subject.Value">@subject.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Keywords" class="control-label"></label>
+                <input asp-for="Keywords" class="form-control" />
+                <span asp-validation-for="Keywords" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Language" class="control-label"></label>
+                <input asp-for="Language" class="form-control" />
+                <span asp-validation-for="Language" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PdfUrl" class="control-label"></label>
+                <input asp-for="PdfUrl" class="form-control" />
+                <span asp-validation-for="PdfUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CitationsNumber" class="control-label"></label>
+                <input asp-for="CitationsNumber" class="form-control" />
+                <span asp-validation-for="CitationsNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JournalId" class="control-label"></label>
+                <select asp-for="JournalId" class="form-control" asp-items="ViewBag.JournalId"></select>
+                <span asp-validation-for="JournalId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeId" class="control-label"></label>
+                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
+                <span asp-validation-for="TypeId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Назад до списку</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

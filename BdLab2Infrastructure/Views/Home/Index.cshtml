@@ -1,0 +1,120 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Вітаємо!</h1>
+    <a asp-action="Index" asp-controller="Publications" style="background-color:chocolate; color:white" class="btn btn-lg text-center mb-4">Публікації</a><br />
+    <a asp-action="Index" asp-controller="Authors" class="btn btn-primary">Автори</a>
+    <a asp-action="Index" asp-controller="Departments" class="btn btn-secondary">Відділи</a>
+    <a asp-action="Index" asp-controller="Organizations" class="btn btn-info">Організації</a>
+    <a asp-action="Index" asp-controller="Journals" class="btn btn-warning">Журнали</a>
+    <a asp-action="Index" asp-controller="PublicationTypes" class="btn btn-success">Типи публікацій</a>
+    <a asp-action="Index" asp-controller="Reviews" class="btn btn-dark">Рецензії</a>
+    <a asp-action="Index" asp-controller="Reviewers" class="btn btn-danger">Рецензенти</a>
+    <a asp-action="Index" asp-controller="Subjects" style="background-color:blueviolet; color:white;" class="btn">Тематики</a>
+
+    <br />
+    <h2 class="mt-lg-5">Прості параметризовані запити</h2>
+    <h4>Запит №1: Знайти публікації автора з прізвищем "X"</h4>
+    <form asp-action="SearchByAuthor" asp-controller="Publications" method="get">
+        <select name="authorLastName" required>
+            <option value="" disabled selected>Оберіть прізвище</option>
+            @foreach (var author in ViewBag.Authors)
+            {
+                <option value="@author">@author</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Шукати</button>
+    </form>
+
+    <h4>Запит №2: Знайти публікації написані мовою "X" у яких не менше ніж "Y" цитувань</h4>
+    <form asp-action="SearchByLanguageAndCitations" asp-controller="Publications" method="get">
+        <select name="language" required>
+            <option value="" disabled selected>Оберіть мову</option>
+            @foreach (var language in ViewBag.Languages)
+            {
+                <option value="@language">@language</option>
+            }
+        </select>
+        <input type="number" name="minCitations" placeholder="Y" required />
+        <button type="submit" class="btn btn-primary">Шукати</button>
+    </form>
+
+    <h4>Запит №3: Знайти прізвища авторів у яких кількість публікацій тематики X більша ніж Y</h4>
+    <form asp-action="SearchAuthorsByPublicationCount" asp-controller="Publications" method="get">
+        <select name="subjectName" required>
+            <option value="" disabled selected>Оберіть тематику</option>
+            @foreach (var subject in ViewBag.Subjects)
+            {
+                <option value="@subject">@subject</option>
+            }
+        </select>
+        <input type="number" name="publicationCount" placeholder="Y" required />
+        <button type="submit" class="btn btn-primary">Шукати</button>
+    </form>
+
+    <h4>Запит №4: Знайти всіх авторів з департаменту з назвою Y</h4>
+    <form asp-action="SearchAuthorsByDepartment" asp-controller="Publications" method="get">
+        <select name="departmentName" required>
+            <option value="" disabled selected>Оберіть департамент</option>
+            @foreach (var department in ViewBag.Departments)
+            {
+                <option value="@department">@department</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Шукати</button>
+    </form>
+
+    <h4>Запит №5: Знайти всі публікації на які давав рецензії рецензент з прізвищем X</h4>
+    <form asp-action="SearchPublicationsByReviewerLastName" asp-controller="Publications" method="get">
+        <select name="reviewerLastName" required>
+            <option value="" disabled selected>Оберіть прізвище рецензента</option>
+            @foreach (var reviewer in ViewBag.Reviewers)
+            {
+                <option value="@reviewer">@reviewer</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Шукати</button>
+    </form>
+
+    <h2 class="mt-lg-5">Параметризовані запити з множинними порівняннями</h2>
+
+
+    <h4>Запит №6: Знайти авторів, що писали по тих тематиках, що й автор з прізвищем "X"</h4>
+    <form asp-action="SearchAuthorsBySubjectsOfAuthor" asp-controller="Authors" method="get">
+        <select name="authorLastName" required>
+            <option value="" disabled selected>Оберіть прізвище</option>
+            @foreach (var author in ViewBag.Authors)
+            {
+                <option value="@author">@author</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Шукати</button>
+    </form>
+
+    <h4>Запит №7: Знайти авторів, що писали в усіх тих тематиках, що й автор з прізвищем "X", але можливо інших</h4>
+    <form asp-action="SearchAuthorsByExactSubjectsOfAuthor" asp-controller="Authors" method="get">
+        <select name="authorLastName" required>
+            <option value="" disabled selected>Оберіть прізвище</option>
+            @foreach (var author in ViewBag.Authors)
+            {
+                <option value="@author">@author</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Шукати</button>
+    </form>
+
+    <h4>Запит №8: Знайти авторів, що писали тільки на ті тематики, що й автор з прізвищем "X"</h4>
+    <form asp-action="SearchAuthorsByExactSubjectsOnly" asp-controller="Authors" method="get">
+        <select name="authorLastName" required>
+            <option value="" disabled selected>Оберіть прізвище</option>
+            @foreach (var author in ViewBag.Authors)
+            {
+                <option value="@author">@author</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Шукати</button>
+    </form>
+
+</div>

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Bd2Domain.Model.Author>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Автори</h1>
+
+<p>
+    <a asp-action="Create">Додати нового</a>
+</p>
+<form method="post">
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Biography)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+
+                <th>
+                    Організація
+                </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Biography)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Department.Organization.Name)
+                    </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Редагувати</a> 
+                 <button class="btn btn-danger mt-2" class="btn btn-primary" formaction="@Url.Action("Delete", new { id = item.Id })" formmethod="post">Видалити</button>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</form>

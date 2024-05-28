@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bd2Domain", "Bd2Domain\Bd2Domain.csproj", "{9E961AA1-1628-4556-B7C6-147594390A4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BdLab2Infrastructure", "BdLab2Infrastructure\BdLab2Infrastructure.csproj", "{8F9AA009-CE32-49E4-A2F5-E1C7A125D4A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E961AA1-1628-4556-B7C6-147594390A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E961AA1-1628-4556-B7C6-147594390A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E961AA1-1628-4556-B7C6-147594390A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E961AA1-1628-4556-B7C6-147594390A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F9AA009-CE32-49E4-A2F5-E1C7A125D4A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F9AA009-CE32-49E4-A2F5-E1C7A125D4A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F9AA009-CE32-49E4-A2F5-E1C7A125D4A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F9AA009-CE32-49E4-A2F5-E1C7A125D4A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2383BFF0-C755-47D3-B218-31D2EB112E8B}
+	EndGlobalSection
+EndGlobal

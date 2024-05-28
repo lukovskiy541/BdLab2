@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Bd2Domain.Model.Publication>
+
+@{
+    ViewData["Title"] = "SearchByAuthorAndCitations";
+}
+
+<h1>Результати:</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Authors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublicationDate)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Keywords)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Language)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PdfUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CitationsNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Journal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @foreach (var author in item.Authors)
+                    {
+                        @Html.DisplayFor(modelItem => author.LastName) @: @Html.DisplayFor(modelItem => author.FirstName) <br />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublicationDate)
+                </td>
+                <td>
+                    @foreach (var subject in item.Subjects)
+                    {
+                        @Html.DisplayFor(modelItem => subject.Name) <br />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Keywords)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Language)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PdfUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CitationsNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Journal.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type.TypeName)
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
