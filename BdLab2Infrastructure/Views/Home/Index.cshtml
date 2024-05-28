@@ -66,17 +66,18 @@
         <button type="submit" class="btn btn-primary">Шукати</button>
     </form>
 
-    <h4>Запит №5: Знайти всі публікації на які давав рецензії рецензент з прізвищем X</h4>
-    <form asp-action="SearchPublicationsByReviewerLastName" asp-controller="Publications" method="get">
-        <select name="reviewerLastName" required>
-            <option value="" disabled selected>Оберіть прізвище рецензента</option>
-            @foreach (var reviewer in ViewBag.Reviewers)
+    <h4>Запит №5: Знайти тематики, на які писав автор з прізвищем "X"</h4>
+    <form asp-action="SearchSubjectsByAuthor" asp-controller="Publications" method="get">
+        <select name="authorLastName" required>
+            <option value="" disabled selected>Оберіть прізвище автора</option>
+            @foreach (var author in ViewBag.Authors)
             {
-                <option value="@reviewer">@reviewer</option>
+                <option value="@author">@author</option>
             }
         </select>
         <button type="submit" class="btn btn-primary">Шукати</button>
     </form>
+   
 
     <h2 class="mt-lg-5">Параметризовані запити з множинними порівняннями</h2>
 

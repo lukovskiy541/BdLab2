@@ -62,6 +62,41 @@ namespace BdLab2Infrastructure.Controllers
 
             return View(authors);
         }
+        public IActionResult SearchSubjectsByAuthor(string authorLastName)
+        {
+            if (string.IsNullOrEmpty(authorLastName))
+            {
+                ViewBag.Message = "Будь ласка, введіть прізвище автора.";
+                return View("NoResults");
+            }
+
+            // SQL запит для отримання унікальних ID тематик, на які писав автор
+            string sqlQuery = @"
+    SELECT DISTINCT S.Id, S.Name
+    FROM Authors A
+    JOIN AuthorsPublications AP ON A.Id = AP.AuthorId
+    JOIN Publications P ON AP.PublicationsId = P.Id
+    JOIN PublicationSubject PS ON P.Id = PS.PublicationId
+    JOIN Subjects S ON PS.SubjectId = S.Id
+    WHERE A.LastName = {0}
+    ";
+
+            // Виконання SQL запиту та конвертація результату в список
+            var subjects = _context.Subjects
+                .FromSqlRaw(sqlQuery, authorLastName)
+                .ToList();
+
+            if (!subjects.Any())
+            {
+                ViewBag.Message = "Немає тематик, що відповідають вказаному автору.";
+                return View("NoResults");
+            }
+
+            // Передаємо знайдені тематики у представлення
+            return View(subjects);
+        }
+
+
         public IActionResult SearchAuthorsByExactSubjectsOfAuthor(string authorLastName)
         {
             if (string.IsNullOrEmpty(authorLastName))

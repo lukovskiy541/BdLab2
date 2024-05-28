@@ -67,25 +67,21 @@ namespace BdLab2Infrastructure.Controllers
             }
 
             string sqlQuery = @"
-    SELECT A2.Id
-    FROM Authors A1
-    JOIN AuthorsPublications AP1 ON A1.Id = AP1.AuthorId
-    JOIN PublicationSubject PS1 ON AP1.PublicationsId = PS1.PublicationId
-    JOIN PublicationSubject PS2 ON PS1.SubjectId = PS2.SubjectId
-    JOIN AuthorsPublications AP2 ON PS2.PublicationId = AP2.PublicationsId
-    JOIN Authors A2 ON AP2.AuthorId = A2.Id
-    WHERE A1.LastName = {0}
-    AND NOT EXISTS (
-        SELECT 1
-        FROM PublicationSubject PS3
-        WHERE PS3.PublicationId = AP2.PublicationsId
-        AND PS3.SubjectId NOT IN (
-            SELECT PS4.SubjectId
-            FROM AuthorsPublications AP3
-            JOIN PublicationSubject PS4 ON AP3.PublicationsId = PS4.PublicationId
-            WHERE AP3.AuthorId = A1.Id
-        )
+            SELECT *
+            FROM AUTHORS FA
+            WHERE NOT EXISTS 
+            (SELECT DISTINCT PS.SUBJECTID
+                FROM AUTHORS A
+                JOIN AUTHORSPUBLICATIONS PA ON PA.AUTHORID = A.ID
+                JOIN PUBLICATIONSUBJECT PS ON PS.PUBLICATIONID = PA.PUBLICATIONSID
+                WHERE A.LASTNAME = {0} AND PS.SUBJECTID NOT IN
+                    (SELECT DISTINCT PS.SUBJECTID
+                    FROM AUTHORS A
+                    JOIN AUTHORSPUBLICATIONS PA ON PA.AUTHORID = A.ID
+                    JOIN PUBLICATIONSUBJECT PS ON PS.PUBLICATIONID = PA.PUBLICATIONSID
+                    WHERE A.ID = FA.ID)
     )
+
     ";
 
             var authorIds = _context.Authors
@@ -109,6 +105,7 @@ namespace BdLab2Infrastructure.Controllers
             return View(authors);
         }
 
+
         public IActionResult SearchAuthorsByExactSubjectsOnly(string authorLastName)
         {
             if (string.IsNullOrEmpty(authorLastName))
@@ -118,36 +115,33 @@ namespace BdLab2Infrastructure.Controllers
             }
 
             string sqlQuery = @"
-    SELECT A2.Id
-    FROM Authors A1
-    JOIN AuthorsPublications AP1 ON A1.Id = AP1.AuthorId
-    JOIN PublicationSubject PS1 ON AP1.PublicationsId = PS1.PublicationId
-    JOIN PublicationSubject PS2 ON PS1.SubjectId = PS2.SubjectId
-    JOIN AuthorsPublications AP2 ON PS2.PublicationId = AP2.PublicationsId
-    JOIN Authors A2 ON AP2.AuthorId = A2.Id
-    WHERE A1.LastName = {0}
-    AND NOT EXISTS (
-        SELECT 1
-        FROM PublicationSubject PS3
-        WHERE PS3.PublicationId = AP2.PublicationsId
-        AND PS3.SubjectId NOT IN (
-            SELECT PS4.SubjectId
-            FROM AuthorsPublications AP3
-            JOIN PublicationSubject PS4 ON AP3.PublicationsId = PS4.PublicationId
-            WHERE AP3.AuthorId = A1.Id
-        )
+   SELECT *
+FROM Authors FA
+WHERE NOT EXISTS 
+    (SELECT DISTINCT PS.SubjectId
+        FROM Authors A
+        JOIN AuthorsPublications PA ON PA.AuthorId = A.Id
+        JOIN PublicationSubject PS ON PS.PublicationId = PA.PublicationsId
+        WHERE A.LastName = {0} AND PS.SubjectId NOT IN
+            (SELECT DISTINCT PS.SubjectId
+            FROM Authors A
+            JOIN AuthorsPublications PA ON PA.AuthorId = A.Id
+            JOIN PublicationSubject PS ON PS.PublicationId = PA.PublicationsId
+            WHERE A.Id = FA.Id)
     )
-    AND NOT EXISTS (
-        SELECT 1
-        FROM PublicationSubject PS5
-        JOIN AuthorsPublications AP4 ON PS5.PublicationId = AP4.PublicationsId
-        WHERE AP4.AuthorId = A1.Id
-        AND PS5.SubjectId NOT IN (
-            SELECT PS6.SubjectId
-            FROM PublicationSubject PS6
-            WHERE PS6.PublicationId = AP2.PublicationsId
-        )
+	AND NOT EXISTS
+		(SELECT DISTINCT PS.SubjectId
+            FROM Authors A
+            JOIN AuthorsPublications PA ON PA.AuthorId = A.Id
+            JOIN PublicationSubject PS ON PS.PublicationId = PA.PublicationsId
+            WHERE A.Id = FA.Id AND PS.SubjectId NOT IN
+            (SELECT DISTINCT PS.SubjectId
+        FROM Authors A
+        JOIN AuthorsPublications PA ON PA.AuthorId = A.Id
+        JOIN PublicationSubject PS ON PS.PublicationId = PA.PublicationsId
+        WHERE A.LastName = {0})
     )
+
     ";
 
             var authorIds = _context.Authors

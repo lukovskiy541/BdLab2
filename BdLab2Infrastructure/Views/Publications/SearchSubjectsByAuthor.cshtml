@@ -1,0 +1,20 @@
+﻿@model List<Bd2Domain.Model.Subject> 
+@{
+    ViewData["Title"] = "Список Тематик";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model != null && Model.Any())
+{
+    <ul>
+        @foreach (var subject in Model)
+        {
+            <li>@subject.Name (ID: @subject.Id)</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Немає тематик для відображення.</p>
+}
